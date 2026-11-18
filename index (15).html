@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>WS TASKPAY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#f1f7f3;--card:#fff;--tx:#14261c;--mu:#6b7a71;--g:#0b6b3a;--g2:#0e8a4a;--gold:#e0a82e;--soft:#e3f3e9;--bd:#dfe9e3;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1511;--card:#16221b;--tx:#e8f2ec;--mu:#93a69b;--soft:#1d3327;--bd:#26372d;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px system-ui,Segoe UI,Roboto,sans-serif;padding-bottom:76px}
+#app{max-width:480px;margin:auto;padding:0 14px 14px}
+.top{background:var(--g);color:#fff;margin:0 -14px 14px;padding:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.top button{background:none;border:0;color:#fff;font-size:20px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+.bal{background:linear-gradient(135deg,var(--g),#0a5a31);color:#fff;border-radius:22px;padding:18px;margin-bottom:12px}
+.bal b{display:block;font-size:34px;color:var(--gold);margin:6px 0 14px}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.mini{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;font-size:12px}.mini b{font-size:14px;margin:2px 0 0;color:#fff}
+.act{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 4px;text-align:center;font-weight:600;color:var(--tx);cursor:pointer}
+.act i{display:block;font-style:normal;font-size:22px;background:var(--soft);border-radius:12px;width:46px;height:46px;line-height:46px;margin:0 auto 6px}
+.ban{background:linear-gradient(135deg,#fff3c4,#e6f6ea);color:#0b6b3a;border-radius:16px;padding:18px;font-weight:800;font-size:18px;text-align:center;margin-bottom:12px}
+button.p,a.p{display:block;width:100%;background:var(--g2);color:#fff;border:0;border-radius:12px;padding:12px;font-weight:700;font-size:15px;text-align:center;text-decoration:none;margin-top:8px;cursor:pointer}
+button.s{background:var(--soft);color:var(--g);border:0;border-radius:10px;padding:8px 12px;font-weight:700;cursor:pointer}
+button.d{background:#fde4e1;color:#b3261e}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font:inherit;margin-top:6px}
+h2{margin:6px 0 10px;font-size:19px}h3{margin:0 0 4px;font-size:16px}.mu{color:var(--mu);font-size:13px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bd);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav div{display:flex;max-width:480px;width:100%}.nav button{flex:1;background:none;border:0;padding:10px 0;color:var(--mu);font-size:12px}.nav button.on{color:var(--g2);font-weight:700}
+.tag{display:inline-block;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700;background:#fdf0d5;color:#9a6a00}.tag.a{background:#d8f1e0;color:#0b6b3a}.tag.r{background:#fde4e1;color:#b3261e}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}.tabs button{white-space:nowrap}.tabs .on{background:var(--g2);color:#fff}
+img.pf{max-width:100%;border-radius:10px;margin-top:6px}.amt{float:right;color:var(--g2);font-weight:800}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.lg{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:800;color:var(--g)}
+.lg em,.bl em{font-style:normal;color:var(--gold)}
+.lb{background:var(--g);color:var(--gold);border-radius:10px;padding:8px 9px;font-size:15px}
+.bell{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:14px;width:48px;height:48px;display:grid;place-items:center;font-size:20px;cursor:pointer}
+.bell s{position:absolute;top:-6px;right:-6px;background:#c0392b;color:#fff;border-radius:99px;font-size:11px;text-decoration:none;min-width:20px;height:20px;display:grid;place-items:center}
+.wl{display:flex;gap:12px;align-items:center;margin-bottom:14px}.wl h2{margin:0 0 4px;font-size:22px}
+.av{flex:none;width:54px;height:54px;border-radius:50%;background:var(--soft);border:3px solid var(--bd);display:grid;place-items:center;font-size:22px;font-weight:800;color:var(--g)}
+.bal{position:relative;overflow:hidden}.bal::after{content:"";position:absolute;right:-60px;top:-50px;width:230px;height:230px;border:34px solid rgba(255,255,255,.07);border-radius:50%}
+.bal .row{position:relative;z-index:1}
+.ban2{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#e9f7ee,#fff);border:1px solid var(--bd);border-radius:18px;padding:14px;margin:12px 0;color:#0b6b3a}
+.gift{font-size:56px}.bl{font-weight:800;font-size:15px}.ban2 i{display:block;font-size:22px;font-weight:800}
+.ban2 span{display:inline-block;background:var(--gold);color:#3a2a00;border-radius:10px;padding:5px 14px;font-weight:800;font-size:18px;margin-top:4px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px;font-size:13px;color:var(--mu)}.st b{display:block;color:var(--tx);font-size:14px;margin-top:4px}
+</style></head><body><div id="app"></div><div class="nav" id="nav"></div>
+<script>
+const API='https://pxjvzkmspduwzpkovkln.supabase.co/functions/v1/api';
+const ACC={bank:'PalmPay',no:'8100249801',name:'Vitalis Orngu agule (WS Tasks)'};
+const L=[['Community channel','https://t.me/eaglecommi'],['Payout channel','https://t.me/allverugf'],['Telegram channel','https://t.me/nzbzbsbsk']];
+const tg=window.Telegram&&Telegram.WebApp;if(tg){tg.ready();tg.expand()}
+const $=s=>document.querySelector(s),val=i=>($('#'+i)||{}).value||'',esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N=n=>'₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2});
+const tag=s=>`<span class="tag ${s=='a'?'a':s=='r'?'r':''}">${s=='a'?'Approved':s=='r'?'Rejected':'Pending'}</span>`;
+let D,v='home',adm=false,at='users',AD=[],pend=null,busy=false;
+async function call(a,x){try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...x,a,initData:tg?tg.initData:'',ref:tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param})});return await r.json()}catch(e){return{error:'Network error. Check your connection and try again.'}}}
+async function loadA(){if(at=='tasks'||at=='cfg')return;const r=await call('a_'+at);AD=r.d||[]}
+async function load(){const r=await call('state');if(r.error){$('#app').innerHTML=`<div class="top"><span>WS TASKPAY</span></div><div class="card">${esc(r.error)}<button class="p" data-a="reload">Try again</button></div>`;return}D=r;if(adm)await loadA();render()}
+async function run(a,x){if(busy)return;busy=true;const r=await call(a,x);busy=false;if(r.error)alert(r.error);await load()}
+function shrink(f,cb){const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const k=Math.min(1,640/i.width),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.7))};i.src=r.result};r.readAsDataURL(f)}
+function render(){
+ const A=$('#app'),nav=$('#nav'),u=D.user,C=D.cfg;nav.innerHTML='';
+ if(adm)return admin(A);
+ const top=`<div class="top"><button>✕</button><span style="flex:1;margin-left:18px;font-size:20px">WS TASKPAY</span><button>⌄</button><button data-a="adm">⋮</button></div>`;
+ if(!u.joined){A.innerHTML=top+`<h2>Join our channels</h2><p class="mu">You must join all three channels before you can open the app.</p>`+L.map((l,i)=>`<div class="card"><h3>${i+1}. ${l[0]}</h3><a class="p" href="${l[1]}" target="_blank" rel="noopener">Join channel</a></div>`).join('')+`<button class="p" data-a="joined">I have joined all 3 channels</button>`;return}
+ if(u.act!=2){A.innerHTML=top+`<h2>Activate your account</h2><div class="card"><p>Pay <b>${N(C.act_fee)}</b> to activate before you start earning.</p><p class="mu">Bank</p><h3>${ACC.bank}</h3><p class="mu">Account number</p><h3>${ACC.no}</h3><p class="mu">Account name</p><h3>${ACC.name}</h3></div>`+(u.act==1?`<div class="card"><span class="tag">Pending</span> Payment received for review. The admin will activate your account shortly.</div><button class="p" data-a="reload">Refresh</button>`:`<button class="p" data-a="paid">I have made the payment</button>`);return}
+ const sub=t=>D.subs.find(x=>x.tid==t),nt=D.tasks.filter(t=>!sub(t.id)).length,mx=D.tasks.length?Math.max(...D.tasks.map(t=>t.amt)):500;
+ let h=top;
+ if(v=='home')h+=`<div class="hd"><div class="lg"><span class="lb">WS</span>WS<em>TASKPAY</em></div><div class="bell" data-a="go" data-i="earn">🔔${nt?'<s>'+nt+'</s>':''}</div></div><div class="wl"><div class="av">${esc((u.name[0]||'W').toUpperCase())}</div><div><h2>Welcome back, ${esc(u.name)}!</h2><p class="mu" style="margin:0">Invite friends and earn Naira for every friend who joins.</p></div></div><div class="bal"><span>👛 Available balance</span><b>${N(u.bal)}</b><div class="row"><div class="mini">Pending<b>${N(D.pend)}</b></div><div class="mini">Total earned<b>${N(u.earned)}</b></div><div class="mini">Withdrawn<b>${N(u.wd)}</b></div></div></div><div class="row"><div class="act" data-a="go" data-i="wallet"><i>⬆</i>Withdraw</div><div class="act" data-a="go" data-i="refer"><i>👥</i>Refer &amp; Earn</div><div class="act" data-a="go" data-i="hist"><i>🧾</i>Transactions</div></div><div class="ban2"><div class="gift">🎁</div><div><div class="bl">WS<em>TASKPAY</em></div><i>Join And Claim</i><span>₦${Number(mx).toLocaleString()} Reward</span></div></div><div class="row"><div class="st">Invited<b>${D.invited}</b></div><div class="st">Qualified<b>${D.qualified}</b></div><div class="st">Commissions<b>${N(D.qualified*C.ref)}</b></div></div>`;
+ if(v=='earn')h+=`<h2>Tasks</h2>`+(D.tasks.length?D.tasks.map(t=>{const s=sub(t.id);return `<div class="card"><span class="amt">${N(t.amt)}</span><h3>${esc(t.title)}</h3><span class="mu">${t.type=='tg'?'Telegram task':'Sponsor task'}</span>${t.txt?`<p>${esc(t.txt)}</p>`:''}${t.img?`<img class="pf" src="${t.img}">`:''}`+(s?`<p>${tag(s.s)}</p>`:t.type=='tg'?`<a class="p" href="${esc(t.link)}" target="_blank" rel="noopener">Join channel</a><button class="p" data-a="claim" data-i="${t.id}">I have joined – claim</button>`:`<input type="file" accept="image/*" data-a="pic"><button class="p" data-a="proof" data-i="${t.id}">Submit picture proof</button>`)+`</div>`}).join(''):'<p class="mu">No tasks yet.</p>');
+ if(v=='wallet')h+=`<h2>Withdraw</h2><div class="card"><p class="mu">Available ${N(u.bal)} · Fee ${C.fee_pct}% · Minimum ${N(C.min)}</p><input id="wb" placeholder="Bank (e.g. PalmPay)"><input id="wn" inputmode="numeric" placeholder="Account number"><input id="wm" placeholder="Account name"><input id="wa" inputmode="numeric" placeholder="Amount"><button class="p" data-a="wd">Request withdrawal</button></div><h3>Your withdrawals</h3>`+(D.wds.map(w=>`<div class="card"><span class="amt">${N(w.amt-w.fee)}</span>${esc(w.bank)} ••${esc(String(w.no).slice(-4))}<br><span class="mu">${w.ref}</span><br>${tag(w.s)}</div>`).join('')||'<p class="mu">None yet.</p>');
+ if(v=='refer')h+=`<h2>Refer &amp; Earn</h2><div class="card"><p>Earn ${N(C.ref)} when a friend you invite activates their account.</p><p class="mu">Your invite link</p><h3 style="word-break:break-all">https://t.me/wstaskpay_bot?startapp=${u.id}</h3></div>`;
+ if(v=='prof')h+=`<h2>Profile</h2><div class="card"><div class="wl"><div class="av">${esc((u.name[0]||'W').toUpperCase())}</div><div><h3>${esc(u.name)}</h3><span class="mu">ID: ${u.id}</span></div></div><span class="tag a">Active</span><button class="p" data-a="go" data-i="hist">Transactions</button></div>`;
+ if(v=='hist')h+=`<h2>Transactions</h2>`+(D.tx.map(t=>`<div class="card"><span class="amt">${t.amt>=0?'+':''}${N(t.amt)}</span>${esc(t.note)}<br><span class="mu">${new Date(t.created).toLocaleString()}</span></div>`).join('')||'<p class="mu">No transactions yet.</p>');
+ A.innerHTML=h;
+ nav.innerHTML=`<div>`+[['home','🏠','Home'],['refer','👥','Refer'],['earn','🪙','Earn'],['wallet','👛','Wallet'],['prof','👤','Profile']].map(x=>`<button class="${v==x[0]?'on':''}" data-a="go" data-i="${x[0]}"><div style="display:block;font-size:20px">${x[1]}</div>${x[2]}</button>`).join('')+`</div>`;
+}
+function admin(A){
+ const T=[['users','Users'],['tasks','Tasks'],['wds','Withdrawals'],['subs','Proofs'],['cfg','Settings']],C=D.cfg;
+ let h=`<div class="top"><span>Admin</span><button data-a="exit">✕</button></div><div class="tabs">`+T.map(t=>`<button class="s ${at==t[0]?'on':''}" data-a="at" data-i="${t[0]}">${t[1]}</button>`).join('')+`</div>`;
+ if(at=='users')h+=AD.map(x=>`<div class="card"><h3>${esc(x.name)} <span class="mu">${x.id}</span></h3><p class="mu">Balance ${N(x.bal)} · ${x.act==2?'Active':x.act==1?'Payment pending':'Not activated'}</p>`+(x.act!=2?`<button class="s" data-a="act" data-i="${x.id}">Activate</button>`:'')+`<input id="m${x.id}" inputmode="numeric" placeholder="Amount to add (negative to deduct)"><button class="p" data-a="add" data-i="${x.id}">Add money</button></div>`).join('')||'<p class="mu">No users yet.</p>';
+ if(at=='tasks')h+=`<div class="card"><h3>Add task</h3><select id="tt"><option value="tg">Telegram task</option><option value="sp">Sponsor task</option></select><input id="tl" placeholder="Title"><input id="tk" placeholder="Public channel link, e.g. https://t.me/yourchannel"><textarea id="tw" placeholder="Write-up (sponsor task)"></textarea><input type="file" accept="image/*" data-a="tpic"><input id="ta" inputmode="numeric" placeholder="Reward amount"><button class="p" data-a="addt">Add task</button></div>`+D.tasks.map(t=>`<div class="card"><span class="amt">${N(t.amt)}</span><h3>${esc(t.title)}</h3><span class="mu">${t.type=='tg'?'Telegram':'Sponsor'}</span><br><button class="s d" data-a="delt" data-i="${t.id}">Delete</button></div>`).join('');
+ if(at=='wds')h+=AD.map(w=>`<div class="card"><span class="amt">${N(w.amt)}</span>${esc(w.users&&w.users.name)}<br>${esc(w.bank)} · ${esc(w.no)} · ${esc(w.name)}<br><span class="mu">${w.ref} · fee ${N(w.fee)}</span><br>${tag(w.s)}`+(w.s=='p'?`<div class="row"><button class="s" data-a="wa" data-i="${w.id}">Approve</button><button class="s d" data-a="wr" data-i="${w.id}">Reject</button></div>`:'')+`</div>`).join('')||'<p class="mu">No withdrawals.</p>';
+ if(at=='subs')h+=AD.map(s=>`<div class="card"><span class="amt">${N(s.tasks&&s.tasks.amt)}</span><h3>${esc(s.tasks&&s.tasks.title)}</h3>${esc(s.users&&s.users.name)}${s.img?`<img class="pf" src="${s.img}">`:''}<br>${tag(s.s)}`+(s.s=='p'?`<div class="row"><button class="s" data-a="sa" data-i="${s.id}">Approve</button><button class="s d" data-a="sr" data-i="${s.id}">Reject</button></div>`:'')+`</div>`).join('')||'<p class="mu">No submissions.</p>';
+ if(at=='cfg')h+=`<div class="card"><h3>Settings</h3><p class="mu">Activation fee</p><input id="s1" value="${C.act_fee}"><p class="mu">Minimum withdrawal</p><input id="s2" value="${C.min}"><p class="mu">Referral bonus</p><input id="s3" value="${C.ref}"><p class="mu">Withdrawal fee (%)</p><input id="s4" value="${C.fee_pct}"><button class="p" data-a="sset">Save</button></div>`;
+ A.innerHTML=h;
+}
+document.addEventListener('change',e=>{const a=e.target.dataset.a;if((a=='pic'||a=='tpic')&&e.target.files[0])shrink(e.target.files[0],d=>pend=d)});
+document.addEventListener('click',async e=>{const el=e.target.closest('[data-a]');if(!el||el.tagName=='INPUT')return;const a=el.dataset.a,i=el.dataset.i;
+ if(a=='reload')return load();
+ if(a=='adm'){if(!D||!D.admin)return;adm=true;await loadA();return render()}
+ if(a=='exit'){adm=false;return render()}
+ if(a=='at'){at=i;await loadA();return render()}
+ if(a=='go'){v=i;return render()}
+ if(a=='joined'||a=='paid')return run(a);
+ if(a=='claim')return run('claim',{tid:+i});
+ if(a=='proof'){if(!pend)return alert('Choose a picture first');const p=pend;pend=null;return run('proof',{tid:+i,img:p})}
+ if(a=='wd')return run('withdraw',{bank:val('wb'),no:val('wn'),name:val('wm'),amt:val('wa')});
+ if(a=='act')return run('a_activate',{uid:i});
+ if(a=='add'){const m=val('m'+i);if(!+m)return;return run('a_add',{uid:i,amt:m})}
+ if(a=='addt'){if(!val('tl').trim()||!+val('ta'))return alert('Title and amount required');const p=pend;pend=null;return run('a_addtask',{type:val('tt'),title:val('tl').trim(),link:val('tk').trim(),txt:val('tw'),img:p||'',amt:val('ta')})}
+ if(a=='delt')return run('a_deltask',{id:+i});
+ if(a=='wa'||a=='wr')return run('a_wdset',{id:+i,ok:a=='wa'});
+ if(a=='sa'||a=='sr')return run('a_subset',{id:+i,ok:a=='sa'});
+ if(a=='sset')return run('a_cfg',{cfg:{act_fee:+val('s1'),min:+val('s2'),ref:+val('s3'),fee_pct:+val('s4')}});
+});
+$('#app').innerHTML='<p class="mu" style="padding-top:40px;text-align:center">Loading…</p>';
+load();
+</script></body></html>
